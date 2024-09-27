@@ -6,20 +6,39 @@ def load_data(file_path):
         return json.load(handle)
 
 
-animals_data = load_data('animals_data.json')
-
-
 def animals_details(data):
+    output = ""
     for animal in data:
-        if 'type' not in animal['characteristics']:
-            pass
-        else:
+
             name = animal["name"]
             diet = animal["characteristics"]["diet"]
             location = animal["locations"][0]
-            animal_type = animal["characteristics"]["type"]
+            animal_type = animal["characteristics"].get("type", "-")  # Check if type exists and set animal_type accordingly
 
-            print(f'Name: {name}\nDiet: {diet}\nLocation: {location}\nType: {animal_type}\n')
+            # Generate the list item HTML
+            output += f'''
+                            <li class="card">
+                                <h2>{name}</h2>
+                                <p>Diet: {diet}</p>
+                                <p>Location: {location}</p>
+                                <p>Type: {animal_type}</p>
+                            </li>
+                        '''
+    return output
 
 
-animals_details(animals_data)
+def main():
+    animals_data = load_data('animals_data.json')
+    animals_html = animals_details(animals_data)
+
+    with open('animals_template.html', 'r') as f:
+        html_data = f.read()
+
+    final_html_data = html_data.replace('__REPLACE_ANIMALS_INFO__', animals_html)
+
+    with open('animals.html', 'w') as f:
+        f.write(final_html_data)
+
+
+if __name__ == "__main__":
+    main()
