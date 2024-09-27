@@ -9,20 +9,21 @@ def load_data(file_path):
 def animals_details(data):
     output = ""
     for animal in data:
+        name = animal["name"]
+        diet = animal["characteristics"]["diet"]
+        location = animal["locations"][0]
+        animal_type = animal["characteristics"].get("type", "-")  # Check if type exists and set animal_type accordingly
 
-            name = animal["name"]
-            diet = animal["characteristics"]["diet"]
-            location = animal["locations"][0]
-            animal_type = animal["characteristics"].get("type", "-")  # Check if type exists and set animal_type accordingly
-
-            # Generate the list item HTML
-            output += f'''
+        # Generate the list item HTML
+        output += f'''
                         <ul class="cards">
                             <li class="cards__item">
-                                <h2>{name}</h2>
-                                <p>Diet: {diet}</p>
-                                <p>Location: {location}</p>
-                                <p>Type: {animal_type}</p>
+                                <div class="card__title">{name}</div>
+                                <p class="card__text">
+                                   <strong>Diet:</strong> {diet} <br/>
+                                  <strong>Location:</strong> {location} <br/>
+                                  <strong>Type:</strong> {animal_type} <br/>
+                                </p>
                             </li> 
                         </ul>
                         '''
