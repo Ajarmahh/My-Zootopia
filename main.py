@@ -17,12 +17,14 @@ def animals_details(data):
 
             # Generate the list item HTML
             output += f'''
-                            <li class="card">
+                        <ul class="cards">
+                            <li class="cards__item">
                                 <h2>{name}</h2>
                                 <p>Diet: {diet}</p>
                                 <p>Location: {location}</p>
                                 <p>Type: {animal_type}</p>
-                            </li>
+                            </li> 
+                        </ul>
                         '''
     return output
 
