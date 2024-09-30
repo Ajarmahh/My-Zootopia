@@ -1,6 +1,7 @@
 import requests
 
 URL = 'https://api.api-ninjas.com/v1/animals?name='
+API_KEY = 'UkkpAvnGuZ8I1p6h4hTfkA==b9sZdFDa2MqJyuyC'
 
 
 def animals_details(data):
@@ -30,8 +31,16 @@ def animals_details(data):
 def main():
     name = input('type animal name: ')
     new_url = f'{URL}{name}'
-    res = requests.get(new_url, headers={'X-Api-Key': 'UkkpAvnGuZ8I1p6h4hTfkA==b9sZdFDa2MqJyuyC'}).json()
-    animals_html = animals_details(res)
+    res = requests.get(new_url, headers={'X-Api-Key': API_KEY}).json()
+
+    """
+       the animals API returns an empty list in case the user entered a non-existing animal
+       and the if Statement will check if the API returned an empty list
+    """
+    if not res:
+        animals_html = f"<h2>The animal '{name}' doesn't exist.</h2>"
+    else:
+        animals_html = animals_details(res)
 
     with open('animals_template.html', 'r') as f:
         html_data = f.read()
