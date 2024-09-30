@@ -1,9 +1,6 @@
-import json
+import requests
 
-
-def load_data(file_path):
-    with open(file_path, "r") as handle:
-        return json.load(handle)
+URL = 'https://api.api-ninjas.com/v1/animals?name='
 
 
 def animals_details(data):
@@ -16,31 +13,26 @@ def animals_details(data):
 
         # Generate the list item HTML
         output += f'''
-                        <ul class="cards">
-                            <li class="cards__item">
-                                <div class="card__title">{name}</div>
-                                <p class="card__text">
-                                   <strong>Diet:</strong> {diet} <br/>
-                                  <strong>Location:</strong> {location} <br/>
-                                  <strong>Type:</strong> {animal_type} <br/>
-                                </p>
-                            </li> 
-                        </ul>
-                        '''
+                    <ul class="cards">
+                       <li class="cards__item">
+                          <div class="card__title">{name}</div>
+                             <p class="card__text">
+                                <strong>Diet:</strong> {diet} <br/>
+                                <strong>Location:</strong> {location} <br/>
+                                <strong>Type:</strong> {animal_type} <br/>
+                             </p>
+                       </li> 
+                    </ul>
+                     '''
     return output
 
 
 def main():
-    animals_data = load_data('animals_data.json')
-    animals_html = animals_details(animals_data)
-
-    with open('animals_template.html', 'r') as f:
-        html_data = f.read()
-
-    final_html_data = html_data.replace('__REPLACE_ANIMALS_INFO__', animals_html)
-
-    with open('animals.html', 'w') as f:
-        f.write(final_html_data)
+    name = input('type animal name: ')
+    new_url = f'{URL}{name}'
+    res = requests.get(new_url, headers={'X-Api-Key': 'UkkpAvnGuZ8I1p6h4hTfkA==b9sZdFDa2MqJyuyC'}).json()
+    animals_html = animals_details(res)
+    print(animals_html)
 
 
 if __name__ == "__main__":
