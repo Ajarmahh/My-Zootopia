@@ -1,12 +1,15 @@
 import requests
+import os
+from dotenv import load_dotenv
 
 URL = 'https://api.api-ninjas.com/v1/animals?name='
-API_KEY = 'UkkpAvnGuZ8I1p6h4hTfkA==b9sZdFDa2MqJyuyC'
 
 
 def fetch_animal_data(name):
     new_url = f'{URL}{name}'
-    res = requests.get(new_url, headers={'X-Api-Key': API_KEY}).json()
+    load_dotenv()  # This line will lod the  variables from the .env file
+    api_key = os.getenv("API_KEY")  # This will access the API key
+    res = requests.get(new_url, headers={'X-Api-Key': api_key}).json()
     return res
 
 
